@@ -9,6 +9,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "bluebird": "^2.3.11",
+    "knex": "^0.6.22",
     "pg": "^4.1.0",
     "websocket": "^1.0.14"
   }
