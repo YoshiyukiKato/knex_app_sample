@@ -16,16 +16,10 @@ var knex = require("knex")({
 });
 
 //========USER AUTHORIZE FUNCTION========
-function authUser(name, passrd){
-	return knex.select("name","passwd").from("users").where("name",name).and("passwd",passwd)
-	.then(function(rows){
-		if(rows[0]) return true;
-		else return false;
-	})
-	.catch(function(err){
-		console.log(err);
-	});
+function authUser(name, passwd){
+	return knex.select("name","passwd").from("users").where({name:name, passwd:passwd});
 }
+
 
 //==========WEB SOCKET SERVER============
 var server = http.createServer(function(request, response) {
@@ -64,11 +58,17 @@ wsServer.on('request', function(request) {
 		//メッセージは全てutf8で送られてくるとする
 		if (message.type === 'utf8') {
 			var input = JSON.parse(message.utf8Data);
-			if(authUser(input.name, input.password)){
-				connection.sendUTF("Login Success");
-			}else{
-				connection.sendUTF("Login Failed");
-			}
+            authUser(input.name, input.passwd)
+            .then(function(rows){
+                if(rows[0]){
+                    connection.sendUTF("Login succeeded");
+                }else{
+                    connection.sendUTF("Login failed");
+                }
+            })
+            .catch(function(err){
+                console.log(err);
+            });
 		}
 	});
 
