@@ -20,9 +20,8 @@ module.exports = {
     staging: {
         client: 'postgresql',
         connection: {
-            database: 'my_db',
-            user:     'username',
-            password: 'password'
+            database: 'yoshiyuki',
+            user:     'yoshiyuki'
         },
         pool: {
             min: 2,

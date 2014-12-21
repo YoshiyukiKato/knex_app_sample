@@ -1,12 +1,36 @@
-//start with command as follows:
-//$ node server.js --config dburl YOUR_DB_URL_HERE
-
 var WebSocketServer = require('websocket').server;
 var http = require('http');
+var knex = require("knex")({
+	client: 'pg',
+	connection:{
+		user     : 'yoshiyuki',
+ 		database : 'yoshiyuki'
+	},
+	migrations: {
+		tableName: 'knex_migrations'
+	},
+    pool:{
+        min:0,
+        max:7
+    }
+});
 
+//========USER AUTHORIZE FUNCTION========
+function authUser(name, passrd){
+	return knex.select("name","passwd").from("users").where("name",name).and("passwd",passwd)
+	.then(function(rows){
+		if(rows[0]) return true;
+		else return false;
+	})
+	.catch(function(err){
+		console.log(err);
+	});
+}
+
+//==========WEB SOCKET SERVER============
 var server = http.createServer(function(request, response) {
     console.log((new Date()) + ' Received request for ' + request.url);
-    response.writeHead(200);
+    response.writeHead(404);
     response.end();
 });
 
@@ -15,42 +39,39 @@ server.listen(8080, function() {
 });
 
 var wsServer = new WebSocketServer({
-    httpServer: server,
-    // You should not use autoAcceptConnections for production
-    // applications, as it defeats all standard cross-origin protection
-    // facilities built into the protocol and the browser.  You should
-    // *always* verify the connection's origin and decide whether or not
-    // to accept it.
-    autoAcceptConnections: false
+	httpServer: server,
+	autoAcceptConnections: false
 });
 
-function originIsAllowed(origin) {
-  // put logic here to detect whether the specified origin is allowed.
-  // 
-  return true;
+function originIsAllowed(origin){
+	//本当はここでリクエストオリジンを捌く
+	return true;
 }
 
 wsServer.on('request', function(request) {
     if (!originIsAllowed(request.origin)) {
-      // Make sure we only accept requests from an allowed origin
       request.reject();
       console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
       return;
     }
-
-    var connection = request.accept('app-protocol', request.origin);//当該オリジンからのアクセスを、app-protocol
-    console.log((new Date()) + ' Connection accepted.');
+	
+	//app-protocolによる、当該オリジンからのアクセスを許可
+	var connection = request.accept('app-protocol', request.origin);
+	console.log((new Date()) + ' Connection accepted.');
     
-    connection.on('message', function(message) {
-        if (message.type === 'utf8') {
-            console.log('Received Message: ' + message.utf8Data);
-            connection.sendUTF(message.utf8Data);
-        }
-        else if (message.type === 'binary') {
-            console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
-            connection.sendBytes(message.binaryData);
-        }
-    });
+	connection.on('message', function(message) {
+		//バイナリは送らないので割愛
+		//メッセージは全てutf8で送られてくるとする
+		if (message.type === 'utf8') {
+			var input = JSON.parse(message.utf8Data);
+			if(authUser(input.name, input.password)){
+				connection.sendUTF("Login Success");
+			}else{
+				connection.sendUTF("Login Failed");
+			}
+		}
+	});
+
     connection.on('close', function(reasonCode, description) {
         console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
