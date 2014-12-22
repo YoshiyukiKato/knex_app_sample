@@ -62,9 +62,9 @@ wsServer.on('request', function(request) {
             .then(function(rows){
                 if(rows[0]){
                     connection.uid = rows[0].id;
-                    connection.sendUTF("Login succeeded");
+                    connection.sendUTF(JSON.stringify({message:"Login succeeded", state:true}));
                 }else{
-                    connection.sendUTF("Login failed");
+                    connection.sendUTF(JSON.stringify({message:"Login failed", state:false}));
                 }
             })
             .catch(function(err){
