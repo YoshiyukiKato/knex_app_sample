@@ -57,12 +57,12 @@ function askOperation(session){
                 //いくら引き出すのかを聞く
                 session.operation = "withdraw";
                 session.deposit = 0;                
-                
+
             }else if( Number(opID) === 2 ){
                 //いくら預けるのかを聞く
                 session.operation = "deposit";
                 session.withdraw = 0;
-                
+
             }else if( Number(opID) === 3 ){
                 session.operation = "pay";
                 //誰に振り込むのかを聞く
@@ -108,7 +108,7 @@ client.on('connectFailed', function(error) {
 
 client.on('connect', function(connection) {
     console.log('WebSocket Client Connected:');
-    
+
     loginQuestion().then(function(session){
         connection.sendUTF(JSON.stringify(session.user));
     });
