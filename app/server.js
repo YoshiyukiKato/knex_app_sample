@@ -61,6 +61,7 @@ wsServer.on('request', function(request) {
             authUser(input.name, input.passwd)
             .then(function(rows){
                 if(rows[0]){
+                    connection.uid = rows[0].id;
                     connection.sendUTF("Login succeeded");
                 }else{
                     connection.sendUTF("Login failed");

@@ -37,6 +37,9 @@ function askPasswd(session){
     });
 }
 
+//========BANK OPERATION INTERFACE FUNCTIONS=========
+
+
 
 //========WEBSOCKET CLIENT EVENT SETTING========
 client.on('connectFailed', function(error) {
@@ -59,6 +62,7 @@ client.on('connect', function(connection) {
     connection.on('message', function(message) {
         if (message.type === 'utf8') {
             console.log("Received: '" + message.utf8Data + "'");
+            if
         }
     });
 });
