@@ -6,7 +6,7 @@ function operation(knex, config){
             trx:trx,
             config:config
         };
-         
+
         return withdraw(session)
         .then(deposit)
         .then(function(session){
@@ -20,51 +20,52 @@ function operation(knex, config){
 function withdraw(session){
     var trx = session.trx;
     var config = session.config;
-    
-    if(config.withdraw > 0){
-        //引き出し金額が0じゃないなら実行
-        return trx.select("*").from("users").where({id:config.operator})
-        .then(function(rows){
-            //引き出し。口座がないときはエラー
-            if(!rows[0]) throw new Error("Abort::No such account.");
 
-            var sum = rows[0].account - Number(config.withdraw);
-            if(sum > 0) return trx.update("account",sum).from("users").where({id:config.operator});
-            else throw new Error("Abort::Not enough money!");       		
-        });
-    }else{
-        //引き出し金額が0なら次へ
-        return new Promise(function(resolve,rejected){
+    return new Promise(function(resolve, rejected){
+        if(config.withdraw > 0){
+            //引き出し金額が0じゃないなら実行
+            trx.select("*").from("users").where({id:config.operator})
+            .then(function(rows){
+                //引き出し。口座がないときはエラー
+                if(!rows[0]) throw new Error("Abort::No such account.");
+
+                var sum = rows[0].account - Number(config.withdraw);
+                if(sum > 0) return trx.update("account",sum).from("users").where({id:config.operator});
+                else rejected(new Error("Abort::Not enough money!"));       		
+            })
+            .then(function(){
+                resolve(session);
+            });
+        }else{
+            //引き出し金額が0なら次へ
             resolve(session);
-        });
-    }
+        }
+    });
 }
 
 function deposit(session){
     var trx = session.trx;
     var config = session.config;
-    
-    if(config.deposit > 0){
-        //振り込み金額が0じゃないなら実行
-        return trx.select("*").from("users").where({id:config.direction})
-        .then(function(rows){
-            //振り込み。口座がないときはエラー
-            if(!rows[0]) throw new Error("Abort::No such account.");        
 
-            var sum = rows[0].account + Number(config.deposit);
-            return trx.update("account",sum).from("users").where({id:config.direction});
-        })
-        .then(function(){
-            return new Promise(function(resolve,rejected){
+    return new Promise(function(resolve,rejected){
+        if(config.deposit > 0){
+            //振り込み金額が0じゃないなら実行
+            trx.select("*").from("users").where({id:config.direction})
+            .then(function(rows){
+                //振り込み。口座がないときはエラー
+                if(!rows[0]) rejected(new Error("Abort::No such account."));        
+
+                var sum = rows[0].account + Number(config.deposit);
+                return trx.update("account",sum).from("users").where({id:config.direction});
+            })
+            .then(function(){
                 resolve(session);
             });
-        });
-    }else{
-        //振り込み金額が0なら次へ
-        return new Promise(function(resolve,rejected){
+        }else{
+            //振り込み金額が0なら次へ
             resolve(session);
-        });
-    }   
+        }  
+    });  
 }
 
 function successMessage(config){

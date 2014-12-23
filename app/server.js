@@ -85,16 +85,12 @@ wsServer.on('request', function(request) {
                 input.config.direction = input.config.direction || connection.uid;
                         
                 banking(input.config)
-                .then(function(){
-                    return knex.select("*").from("users");
+                .then(function(message){
+                    connection.sendUTF(JSON.stringify({message:message, state:true}));
                 })
                 .catch(function(err){
                     console.log(err);
                     connection.sendUTF(JSON.stringify({message:"Banking failed", state:true}));
-                })
-                .then(function(rows){
-                    console.log(rows);
-                    connection.sendUTF(JSON.stringify({message:"Banking succeeded. ", state:true}));
                 });
             }
         }
