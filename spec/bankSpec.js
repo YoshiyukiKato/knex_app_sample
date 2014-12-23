@@ -19,6 +19,7 @@ var knex = require("knex")({
 
 var bank = require("../app/lib/bank.js");
 var config = {
+    operation:"deposit",
 	operator:1,
 	direction:1,
 	withdraw:0,
@@ -28,16 +29,10 @@ var config = {
 describe("Bank operation",function(){
     it("should be return updated account data",function(done){
         bank.operation(knex,config)
-        .then(function(){
-            return knex.select("*").from("users");
-        })
-        .catch(function(err){
-            console.log(err);
-        })
-        .then(function(rows){
-            console.log(rows);
+        .then(function(message){
+            console.log(message);
             done();
-        });    
+        });
     });
 });
 
