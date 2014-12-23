@@ -1,5 +1,3 @@
-"use strict"
-
 var Promise = require("bluebird");
 var knex = require("knex")({
     client: 'pg',
