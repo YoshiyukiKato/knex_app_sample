@@ -22,11 +22,11 @@ var travis_knex = {
 }
 
 gulp.task('travis_migrate', function () {
-    return knex.migrate.latest(travis_knex);
+    return knex(travis_knex).migrate.latest();
 });
 
 gulp.task('travis_seed', function () {
-    return knex.seed.run(travis_knex);
+    return knex(travis_knex).seed.run();
 });
 
 gulp.task('test', function () {
