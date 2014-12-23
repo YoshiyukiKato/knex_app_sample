@@ -1,3 +1,19 @@
+function operation(knex, config){
+    return knex.transaction(function(trx) {
+        var session = {
+            trx:trx,
+            config:config
+        };
+        
+        return withdraw(session)
+        .then(function(){
+            return deposit(session);
+        }).then(function(){
+            console.log("success");
+        });
+        
+    });
+}
 
 function withdraw(session){
     var trx = session.trx;
@@ -38,23 +54,6 @@ function deposit(session){
         //振り込み金額が0なら次へ
         return;
     }   
-}
-
-function operation(knex, config){
-    return knex.transaction(function(trx) {
-        var session = {
-            trx:trx,
-            config:config
-        };
-        
-        return withdraw(session)
-        .then(function(){
-            return deposit(session);
-        }).then(function(){
-            console.log("success");
-        });
-        
-    });
 }
 
 /*===========OLD VERSION OPERATION FUNCTION===========
