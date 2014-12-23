@@ -35,7 +35,7 @@ function askPasswd(session){
 }
 
 
-//========BANK OPERATION INTERFACE FUNCTIONS=========
+//========BANKING OPERATION INTERFACE FUNCTIONS=========
 function bankingQuestion(connection) {
     //何をしたいか聞く
     var session = {};
@@ -43,13 +43,16 @@ function bankingQuestion(connection) {
         input: process.stdin,
         output: process.stdout
     });
-    return askOperation(session).then(askDirection).then(askAmount);
+    return askOperation(session).then(askDirection)
+    .catch(function(err){
+        throw err;
+    }).then(askAmount);
 }
 
 function askOperation(session){
     //何がしたいのか聞く
     return new Promise(function(resolve,rejected){
-        session.rl.question('Please input number about what you want to do.\n 1)Withdraw\n 2)Deposit\n 3)Pay\n 4)Quit :', function (opID) {
+        session.rl.question('Please input number about what you want to do.\n 1)Withdraw\n 2)Deposit\n 3)Pay\n 4)Quit\n :', function (opID) {
             session.banking = {};
             if( Number(opID) === 1 ){
                 session.banking.operation = "withdraw";              
@@ -60,6 +63,7 @@ function askOperation(session){
             }else{
                 console.log("See You!");
                 session.rl.close();
+                rejected("You are Loged out");
             }
             resolve(session);
         });

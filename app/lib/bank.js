@@ -1,4 +1,5 @@
 function operation(knex, config){
+    console.log(config);
     return knex.transaction(function(trx) {
         var session = {
             trx:trx,
@@ -26,7 +27,7 @@ function withdraw(session){
             //引き出し。口座がないときはエラー
             if(!rows[0]) throw new Error("Abort::No such account.");
 
-            var sum = rows[0].account - config.withdraw;
+            var sum = rows[0].account - Number(config.withdraw);
             if(sum > 0) return trx.update("account",sum).from("users").where({id:config.operator});
             else throw new Error("Abort::Not enough money!");       		
         })
@@ -47,7 +48,7 @@ function deposit(session){
             //振り込み。口座がないときはエラー
             if(!rows[0]) throw new Error("Abort::No such account.");        
 
-            var sum = rows[0].account + config.deposit;
+            var sum = rows[0].account + Number(config.deposit);
             return trx.update("account",sum).from("users").where({id:config.direction});
         })
     }else{

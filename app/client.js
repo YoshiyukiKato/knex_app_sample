@@ -2,8 +2,7 @@ var WebSocketClient = require('websocket').client;
 var Promise = require("bluebird");
 
 var client = new WebSocketClient();
-var interface = require("./lib/inteface.js");
-
+var interface = require("./lib/interface.js");
 
 //========WEBSOCKET CLIENT EVENT SETTING========
 client.on('connectFailed', function(error) {
@@ -14,7 +13,11 @@ client.on('connect', function(connection) {
     console.log('WebSocket Client Connected:');
     
     interface.login().then(function(session){
-        connection.sendUTF(JSON.stringify(session.user));
+        var data = {};
+        data.config = session.user;
+        data.type = "login";
+        connection.sendUTF(JSON.stringify(data));
+        return;
     });
     
     connection.on('error', function(error) {
@@ -28,12 +31,31 @@ client.on('connect', function(connection) {
             var response = JSON.parse(message.utf8Data);
             if(response.state){
                 connection.loginState = true;
-            }        
+                interface.banking().then(function(session){
+                    var data = {};
+                    data.config = session.banking;
+                    data.type = "banking";
+                    connection.sendUTF(JSON.stringify(data));
+                    return;
+                })
+                .catch(function(err){
+                    console.log(err);
+                    connection.close();
+                });
+            }
         }
-    });
-    
-    
+    });   
 });
+
+function sequential(cb){
+    console.log(work);
+    return interface.banking().then(function(session){
+        cb(session);
+    })
+    .then(function(){
+        return sequential(cb);
+    });
+}
 
 //app-protocolでサーバーに接続
 client.connect('ws://localhost:8080/', 'app-protocol');

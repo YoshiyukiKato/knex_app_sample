@@ -14,10 +14,18 @@ var knex = require("knex")({
         max:7
     }
 });
+var bank = require("./lib/bank.js");
 
 //========USER AUTHORIZE FUNCTION========
-function authUser(name, passwd){
-    return knex.select("name","passwd").from("users").where({name:name, passwd:passwd});
+function authUser(config){
+    var name = config.name,
+        passwd = config.passwd;
+    return knex.select("*").from("users").where({name:name, passwd:passwd});
+}
+
+//========BANKING=========
+function banking(config){
+    return bank.operation(knex, config)
 }
 
 
@@ -58,18 +66,37 @@ wsServer.on('request', function(request) {
         //メッセージは全てutf8で送られてくるとする
         if (message.type === 'utf8') {
             var input = JSON.parse(message.utf8Data);
-            authUser(input.name, input.passwd)
-            .then(function(rows){
-                if(rows[0]){
-                    connection.uid = rows[0].id;
-                    connection.sendUTF(JSON.stringify({message:"Login succeeded", state:true}));
-                }else{
-                    connection.sendUTF(JSON.stringify({message:"Login failed", state:false}));
-                }
-            })
-            .catch(function(err){
-                console.log(err);
-            });
+            if(input.type === "login"){
+                authUser(input.config)
+                .then(function(rows){
+                    if(rows[0]){
+                        connection.uid = rows[0].id;
+                        connection.sendUTF(JSON.stringify({message:"Login succeeded", state:true}));
+                    }else{
+                        connection.sendUTF(JSON.stringify({message:"Login failed", state:false}));
+                    }
+                })
+                .catch(function(err){
+                    console.log(err);
+                });
+            }
+            if(input.type === "banking"){
+                input.config.operator = connection.uid;
+                input.config.direction = input.config.direction || connection.uid;
+                        
+                banking(input.config)
+                .then(function(){
+                    return knex.select("*").from("users");
+                })
+                .catch(function(err){
+                    console.log(err);
+                    connection.sendUTF(JSON.stringify({message:"Banking failed", state:false}));
+                })
+                .then(function(rows){
+                    console.log(rows);
+                    connection.sendUTF(JSON.stringify({message:"Banking succeeded", state:true}));
+                });
+            }
         }
     });
 
