@@ -20,8 +20,8 @@ module.exports = {
     staging: {
         client: 'postgresql',
         connection: {
-            database: 'yoshiyuki',
-            user:     'yoshiyuki'
+            database: travis_ci_test,
+            username: postgres
         },
         pool: {
             min: 2,
@@ -29,6 +29,9 @@ module.exports = {
         },
         migrations: {
             tableName: 'knex_migrations'
+        },
+        seeds: {
+            directory: './seeds/dev'
         }
     },
 
