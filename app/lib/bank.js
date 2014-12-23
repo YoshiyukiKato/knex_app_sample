@@ -1,18 +1,19 @@
+var Promise = require("bluebird");
+
 function operation(knex, config){
-    console.log(config);
     return knex.transaction(function(trx) {
         var session = {
             trx:trx,
             config:config
         };
-        
+         
         return withdraw(session)
-        .then(function(){
-            return deposit(session);
-        }).then(function(){
-            console.log("success");
+        .then(deposit)
+        .then(function(session){
+            return new Promise(function(resolve,rejected){
+                resolve(successMessage(config));
+            });
         });
-        
     });
 }
 
@@ -30,10 +31,12 @@ function withdraw(session){
             var sum = rows[0].account - Number(config.withdraw);
             if(sum > 0) return trx.update("account",sum).from("users").where({id:config.operator});
             else throw new Error("Abort::Not enough money!");       		
-        })
+        });
     }else{
         //引き出し金額が0なら次へ
-        return;
+        return new Promise(function(resolve,rejected){
+            resolve(session);
+        });
     }
 }
 
@@ -51,10 +54,27 @@ function deposit(session){
             var sum = rows[0].account + Number(config.deposit);
             return trx.update("account",sum).from("users").where({id:config.direction});
         })
+        .then(function(){
+            return new Promise(function(resolve,rejected){
+                resolve(session);
+            });
+        });
     }else{
         //振り込み金額が0なら次へ
-        return;
+        return new Promise(function(resolve,rejected){
+            resolve(session);
+        });
     }   
+}
+
+function successMessage(config){
+    var message = "success: "
+    if(config.operation === "withdraw"){
+        message += config.operation + " $" + config.withdraw;
+    }else{
+        message += config.operation + " $" + config.deposit;
+    }
+    return message
 }
 
 /*===========OLD VERSION OPERATION FUNCTION===========

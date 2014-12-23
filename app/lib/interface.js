@@ -36,13 +36,14 @@ function askPasswd(session){
 
 
 //========BANKING OPERATION INTERFACE FUNCTIONS=========
-function bankingQuestion(connection) {
+function bankingQuestion() {
     //何をしたいか聞く
     var session = {};
     session.rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
+
     return askOperation(session).then(askDirection)
     .catch(function(err){
         throw err;
@@ -52,7 +53,8 @@ function bankingQuestion(connection) {
 function askOperation(session){
     //何がしたいのか聞く
     return new Promise(function(resolve,rejected){
-        session.rl.question('Please input number about what you want to do.\n 1)Withdraw\n 2)Deposit\n 3)Pay\n 4)Quit\n :', function (opID) {
+        var message = 'Please input number about what you want to do.\n 1)Withdraw\n 2)Deposit\n 3)Pay\n 4)Quit\n :';
+        session.rl.question(message, function (opID) {
             session.banking = {};
             if( Number(opID) === 1 ){
                 session.banking.operation = "withdraw";              
@@ -71,6 +73,7 @@ function askOperation(session){
 }
 
 function askDirection(session){
+    //振込先を聞く。振り込み以外ではスルー
     return new Promise(function(resolve,rejected){
         if(session.banking.operation !== "pay"){
             resolve(session);
@@ -84,6 +87,7 @@ function askDirection(session){
 }
 
 function askAmount(session){
+    //操作する金額を聞く
     return new Promise(function(resolve,rejected){
         session.rl.question("How much do you want to " + session.banking.operation+ "? :",function(amount){
             session.rl.close();

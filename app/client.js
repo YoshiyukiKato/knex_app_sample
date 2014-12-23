@@ -31,6 +31,7 @@ client.on('connect', function(connection) {
             var response = JSON.parse(message.utf8Data);
             if(response.state){
                 connection.loginState = true;
+                console.log(response.message);
                 interface.banking().then(function(session){
                     var data = {};
                     data.config = session.banking;

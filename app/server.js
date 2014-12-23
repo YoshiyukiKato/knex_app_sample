@@ -90,11 +90,11 @@ wsServer.on('request', function(request) {
                 })
                 .catch(function(err){
                     console.log(err);
-                    connection.sendUTF(JSON.stringify({message:"Banking failed", state:false}));
+                    connection.sendUTF(JSON.stringify({message:"Banking failed", state:true}));
                 })
                 .then(function(rows){
                     console.log(rows);
-                    connection.sendUTF(JSON.stringify({message:"Banking succeeded", state:true}));
+                    connection.sendUTF(JSON.stringify({message:"Banking succeeded. ", state:true}));
                 });
             }
         }
