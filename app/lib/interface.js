@@ -5,7 +5,7 @@ var readline = require('readline');
 function loginQuestion() {
     //名前とパスワードを聞く
     var session = {};
-    session.rl = require('readline').createInterface({
+    session.rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
@@ -39,7 +39,7 @@ function askPasswd(session){
 function bankingQuestion(connection) {
     //何をしたいか聞く
     var session = {};
-    session.rl = require('readline').createInterface({
+    session.rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
     });
