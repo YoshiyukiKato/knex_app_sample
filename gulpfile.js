@@ -1,5 +1,6 @@
 var gulp = require('gulp');
-var knex = require("knex");
+var Knex = require("knex");
+
 
 gulp.task('travis_migrate', function () {
     var travis_knex = {
@@ -20,12 +21,12 @@ gulp.task('travis_migrate', function () {
             directory: './db/seeds/dev'
         }
     }
-    knex(travis_knex).migrate.latest();
+    Knex(travis_knex).migrate.latest();
     return;
 });
 
-gulp.task('travis_seed', function () {
-    var travis_knex = {
+gulp.task('travis_seed', function (){
+    var knex = Knex({
         client: 'postgresql',
         connection: {
             database: "travis_ci_test",
@@ -42,12 +43,21 @@ gulp.task('travis_seed', function () {
         seeds: {
             directory: './db/seeds/dev'
         }
-    }
-    knex(travis_knex).seed.run();
-    return;
+    });
+    setTimeout(function genSeed(){
+        knex.schema.hasTable("users").then(function(exist){
+            if(!exist){
+                setTimeout(genSeed,500);
+            }else{
+                knex.seed.run();
+                return;     
+            }
+        });
+    },500);
 });
 
 gulp.task('migrate', function () {
+
     var travis_knex = {
         client: 'postgresql',
         connection: {
@@ -63,14 +73,11 @@ gulp.task('migrate', function () {
             directory: './db/seeds/dev'
         }
     }
-    knex(travis_knex).migrate.latest()
-    .then(function(){
-        return knex(travis_knex).seed.run();
-    });
+    Knex(travis_knex).migrate.latest();
 });
 
 gulp.task('seed', function () {
-    var travis_knex = {
+    var knex = Knex({
         client: 'postgresql',
         connection: {
             host:'localhost',
@@ -84,8 +91,16 @@ gulp.task('seed', function () {
         seeds: {
             directory: './db/seeds/dev'
         }
-    }
-    
-    knex(travis_knex).seed.run();
+    });
+    setTimeout(function genSeed(){
+        knex.schema.hasTable("users").then(function(exist){
+            if(!exist){
+                setTimeout(genSeed,500);
+            }else{
+                knex.seed.run();
+            }
+        });
+    },500);
+
 });
 
