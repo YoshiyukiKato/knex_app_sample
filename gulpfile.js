@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var jasmine = require('gulp-jasmine');
 
 var knex = require("knex");
 var travis_knex = {
@@ -22,13 +21,9 @@ var travis_knex = {
 }
 
 gulp.task('travis_migrate', function () {
-    return knex(travis_knex).migrate.latest();
+    return knex(travis_knex).migrate.latest(travis_knex);
 });
 
 gulp.task('travis_seed', function () {
-    return knex(travis_knex).seed.run();
-});
-
-gulp.task('test', function () {
-    return gulp.src('spec/*Spec.js').pipe(jasmine());
+    return knex(travis_knex).seed.run(travis_knex);
 });

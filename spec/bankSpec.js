@@ -1,5 +1,7 @@
 "use strict"
 
+var knex_config = process.env.knex_config
+
 var Promise = require("bluebird");
 var knex = require("knex")({
     client: 'pg',
