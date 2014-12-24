@@ -10,11 +10,11 @@ module.exports = {
             database :'yoshiyuki'
         },
         migrations: {
-            directory:"./migrations",
+            directory:"./db/migrations",
             tableName: 'knex_migrations'
         },
         seeds: {
-            directory: './seeds/dev'
+            directory: './db/seeds/dev'
         }
     },
 
@@ -29,11 +29,11 @@ module.exports = {
             max: 10
         },
         migrations: {
-            directory:"./migrations",
+            directory:"./db/migrations",
             tableName: 'knex_migrations'
         },
         seeds: {
-            directory: './seeds/dev'
+            directory: './db/seeds/dev'
         }
     },
 
