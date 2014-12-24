@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jasmine-node spec/travisSpec.js"
+        "test": "gulp travis_test"
     },
     "author": "Yoshiyuki Kato",
     "license": "MIT",
