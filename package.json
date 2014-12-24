@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "gulp travis_test"
+        "test": "jasmine-node spec/travisSpec.js --forceexit"
     },
     "author": "Yoshiyuki Kato",
     "license": "MIT",
