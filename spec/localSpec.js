@@ -50,8 +50,8 @@ describe("Bank operation",function(){
         var knex = Knex({
             client: 'pg',
             connection: {
-                database: "travis_ci_test",
-                user: "postgres"
+                database: "yoshiyuki",
+                user: "yoshiyuki"
             },
             migrations:{
                 directory:"./db/migrations",
@@ -62,6 +62,7 @@ describe("Bank operation",function(){
                 max: 7
             }
         });
+        
         var config = {
             operation:"deposit",
             operator:1,

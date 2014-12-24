@@ -46,8 +46,7 @@ gulp.task('travis_buildtest',function(){
                     if(!exist){
                         setTimeout(test,500);
                     }else{
-                        gulp.src('spec/interfaceSpec.js').pipe(jasmine());
-                        gulp.src('spec/bankSpec.js').pipe(jasmine());
+                        gulp.src('spec/travisSpec.js').pipe(jasmine());
                         resolve("Ready to Test!!");
                     }
                 });
@@ -105,8 +104,7 @@ gulp.task('buildtest',function(){
                     if(!exist){
                         setTimeout(test,100);
                     }else{
-                        gulp.src('spec/interfaceSpec.js').pipe(jasmine());
-                        gulp.src('spec/bankSpec.js').pipe(jasmine());
+                        gulp.src('spec/localSpec.js').pipe(jasmine());
                         resolve("Ready to Test!!");
                     }
                 });
