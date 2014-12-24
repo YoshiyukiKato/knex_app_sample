@@ -7,7 +7,7 @@ gulp.task('travis_migrate', function () {
         client: 'postgresql',
         connection: {
             database: "travis_ci_test",
-            username: "postgres"
+            user: "postgres"
         },
         pool: {
             min: 2,
@@ -30,7 +30,7 @@ gulp.task('travis_seed', function (){
         client: 'postgresql',
         connection: {
             database: "travis_ci_test",
-            username: "postgres"
+            user: "postgres"
         },
         pool: {
             min: 2,
@@ -61,7 +61,7 @@ gulp.task('travis_test',function(){
         client: 'postgresql',
         connection: {
             database: "travis_ci_test",
-            username: "postgres"
+            user: "postgres"
         },
         pool: {
             min: 2,
@@ -137,6 +137,43 @@ gulp.task('seed', function () {
             }
         });
     },500);
+});
 
+gulp.task('test',function(){
+    var knex = Knex({
+        client: 'postgresql',
+        connection: {
+            host:'localhost',
+            user: 'yoshiyuki',
+            database :'yoshiyuki'
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            directory: "./db/migrations",
+            tableName: 'knex_migrations'
+        },
+        seeds: {
+            directory: './db/seeds/dev'
+        }
+    });
+    setTimeout(function test(){
+        knex.schema.hasTable("users").then(function(exist){
+            if(!exist){
+                setTimeout(test,500);
+            }else{
+                return knex.schema.hasColumn("users","account");
+            }
+        }).then(function(exist){
+            if(!exist){
+                setTimeout(test,500);
+            }else{
+                gulp.src('spec/interfaceSpec.js').pipe(jasmine());
+                gulp.src('spec/bankSpec.js').pipe(jasmine());
+            }
+        });
+    },500);
 });
 
