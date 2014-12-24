@@ -23,7 +23,7 @@ $ node app/server.js
 ```
 
 ```sh
-$ node app/server.js
+$ node app/client.js
 ```
 
 ##Test
