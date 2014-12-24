@@ -1,5 +1,6 @@
 var Promise = require("bluebird");
 var Knex = require("knex");
+
 var interface = require("../app/lib/interface.js");
 var bank = require("../app/lib/bank.js");
 //=============== INTERFACE TEST==================

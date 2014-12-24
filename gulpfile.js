@@ -22,7 +22,7 @@ gulp.task('travis_buildtest',function(){
             directory: './db/seeds/dev'
         }
     });
-    knex.migrate.latest()
+    return knex.migrate.latest()
     .then(function(){
         return new Promise(function(resolve,rejected){
             setTimeout(function genSeed(){
@@ -46,7 +46,6 @@ gulp.task('travis_buildtest',function(){
                     if(!exist){
                         setTimeout(test,500);
                     }else{
-                        gulp.src('spec/travisSpec.js').pipe(jasmine());
                         resolve("Ready to Test!!");
                     }
                 });
@@ -55,7 +54,7 @@ gulp.task('travis_buildtest',function(){
     })
     .then(function(message){
         console.log(message);
-        return;
+        return gulp.src('spec/travisSpec.js').pipe(jasmine());
     });
 });
 
