@@ -87,12 +87,12 @@ gulp.task('buildtest',function(){
             setTimeout(function genSeed(){
                 knex.schema.hasTable("users").then(function(exist){
                     if(!exist){
-                        setTimeout(genSeed,1000);
+                        setTimeout(genSeed,100);
                     }else{
                         resolve(knex);
                     }
                 });
-            },1000);
+            },100);
         });
     })
     .then(function(knex){
@@ -103,14 +103,14 @@ gulp.task('buildtest',function(){
             setTimeout(function test(){
                 knex.schema.hasColumn("users","account").then(function(exist){
                     if(!exist){
-                        setTimeout(test,500);
+                        setTimeout(test,100);
                     }else{
                         gulp.src('spec/interfaceSpec.js').pipe(jasmine());
                         gulp.src('spec/bankSpec.js').pipe(jasmine());
                         resolve("Ready to Test!!");
                     }
                 });
-            },500);
+            },100);
         });
     })
     .then(function(message){

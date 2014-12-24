@@ -1,6 +1,6 @@
 var Promise = require("bluebird");
 var knex = require("knex")({
-    client: 'pg',
+    client: 'postgresql',
     connection: {
         database: "travis_ci_test",
         user: "postgres"
