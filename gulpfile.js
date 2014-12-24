@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var Knex = require("knex");
-
+var jasmine = require('gulp-jasmine');
 
 gulp.task('travis_migrate', function () {
     var travis_knex = {
@@ -51,6 +51,42 @@ gulp.task('travis_seed', function (){
             }else{
                 knex.seed.run();
                 return;     
+            }
+        });
+    },500);
+});
+
+gulp.task('travis_test',function(){
+    var knex = Knex({
+        client: 'postgresql',
+        connection: {
+            database: "travis_ci_test",
+            username: "postgres"
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            directory: "./db/migrations",
+            tableName: 'knex_migrations'
+        },
+        seeds: {
+            directory: './db/seeds/dev'
+        }
+    });
+    setTimeout(function travisTest(){
+        knex.schema.hasTable("users").then(function(exist){
+            if(!exist){
+                setTimeout(travisTest,500);
+            }else{
+                return knex.schema.hasColumn("users","account");
+            }
+        }).then(function(exist){
+            if(!exist){
+                setTimeout(travisTest,500);
+            }else{
+                return gulp.src('spec/travisTest.js').pipe(jasmine());
             }
         });
     },500);
