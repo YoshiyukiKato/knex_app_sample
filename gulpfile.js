@@ -59,7 +59,7 @@ gulp.task('travis_build',function(){
     });
 });
 
-gulp.task('buildtest',function(){
+gulp.task('local_build',function(){
     var knex = Knex({
         client: 'postgresql',
         connection: {

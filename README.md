@@ -26,10 +26,30 @@ $ node app/server.js
 $ node app/client.js
 ```
 
-##Test
+```
+WebSocket Client Connected:
+What is your name?:taro
+Password:taropasswd
+Login succeeded
+Please input number about what you want to do.
+ 1)Withdraw
+ 2)Deposit
+ 3)Pay
+ 4)Quit
+Please input number about what you want to do.
+ 1)Withdraw
+ 2)Deposit
+ 3)Pay
+ 4)Quit
+ :2
+How much do you want to deposit? :1000
+success: deposit $1000
+````
+
+##Build Test
 
 ```sh
-$ gulp buildtest
+$ gulp local_build
 ```
 
 ##Licence

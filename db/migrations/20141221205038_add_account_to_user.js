@@ -9,11 +9,7 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    knex.schema.hasColumn('users',"account").then(function(exists) {
-        if(exists){
-            return knex.schema.table('users', function (table) {
-                table.dropColumn('account');
-            });
-        }
+    return knex.schema.table('users', function (table) {
+        table.dropColumn('account');
     });
 };

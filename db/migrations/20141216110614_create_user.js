@@ -15,5 +15,9 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    return knex.schema.dropTable('users');
+    knex.schema.hasTable('users').then(function(exists) {
+        if (exists) {
+            return knex.schema.dropTable('users');
+        }
+    });
 };
