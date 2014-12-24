@@ -10,13 +10,20 @@ Knex.jsを用いたサンプルアプリケーションです。
 * PostgreSQL
 
 #Usage
-##Quick start
+##Install
 
 ```sh
 $ git clone git@github.com:YoshiyukiKato/knex_app_sample.git
 $ cd knex_app_sample
 $ npm install
 ```
+##Build
+
+```sh
+$ gulp local_build
+```
+
+##Run
 
 ```sh
 $ node app/server.js
@@ -45,12 +52,6 @@ Please input number about what you want to do.
 How much do you want to deposit? :1000
 success: deposit $1000
 ````
-
-##Build Test
-
-```sh
-$ gulp local_build
-```
 
 ##Licence
 MIT
