@@ -4,6 +4,5 @@ node_js:
 before_script:
     - psql -c 'create database travis_ci_test;' -U postgres
     - npm i -g jasmine-node gulp
-    - gulp travis_migrate travis_seed
 script: 
-    - gulp travis_test
+    - gulp travis_migrate travis_seed travis_test
