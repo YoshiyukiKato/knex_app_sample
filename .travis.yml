@@ -6,4 +6,4 @@ before_script:
     - npm i -g jasmine-node gulp
     - gulp travis_build
 script: 
-    - jasmine-node spec/travisSpec.js --forceexit
+    - jasmine-node ./spec/travisSpec.js --forceexit
