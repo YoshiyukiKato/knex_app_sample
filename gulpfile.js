@@ -1,6 +1,7 @@
 var gulp = require('gulp');
-var Knex = require("knex");
+var exit = require("gulp-exit");
 var jasmine = require('gulp-jasmine');
+var Knex = require("knex");
 var Promise = require("bluebird");
 
 gulp.task('travis_build',function(){
@@ -54,7 +55,7 @@ gulp.task('travis_build',function(){
     })
     .then(function(message){
         console.log(message);
-        return gulp.src('spec/travisSpec.js').pipe(jasmine());
+        return gulp.src('spec/travisSpec.js').pipe(jasmine()).pipe(exit());
     });
 });
 
@@ -103,7 +104,6 @@ gulp.task('buildtest',function(){
                     if(!exist){
                         setTimeout(test,100);
                     }else{
-                        gulp.src('spec/localSpec.js').pipe(jasmine());
                         resolve("Ready to Test!!");
                     }
                 });
@@ -112,7 +112,7 @@ gulp.task('buildtest',function(){
     })
     .then(function(message){
         console.log(message);
-        return;
+        return gulp.src('spec/localSpec.js').pipe(jasmine()).pipe(exit());;
     });
 });
 

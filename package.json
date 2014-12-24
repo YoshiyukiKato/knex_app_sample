@@ -1,25 +1,23 @@
 {
-    "name": "knex_app_sample",
-    "version": "0.0.1",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "test": "jasmine-node spec/travisSpec.js --forceexit"
-    },
-    "author": "Yoshiyuki Kato",
-    "license": "MIT",
-    "dependencies": {
-        "bluebird": "^2.4.0",
-        "knex": "^0.7.3",
-        "pg": "^4.1.1",
-        "websocket": "^1.0.14"
-    },
-    "devDependencies": {
-        "gulp": "^3.8.10",
-        "gulp-jasmine": "^1.0.1"
-    },
-    "repository": { 
-        "type" : "git",
-        "url" : "https://github.com/YoshiyukiKato/knex_app_sample.git"
-    }
+  "name": "knex_app_sample",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "author": "Yoshiyuki Kato",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.4.0",
+    "knex": "^0.7.3",
+    "pg": "^4.1.1",
+    "websocket": "^1.0.14"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-exit": "0.0.2",
+    "gulp-jasmine": "^1.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YoshiyukiKato/knex_app_sample.git"
+  }
 }
