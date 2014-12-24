@@ -6,6 +6,5 @@ before_script:
     - "npm i -g jasmine-node gulp"
 script: 
     - "gulp travis_build"
-    - npm test
 matrix:
   fast_finish: true
