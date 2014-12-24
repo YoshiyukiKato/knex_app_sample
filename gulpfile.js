@@ -3,7 +3,7 @@ var Knex = require("knex");
 var jasmine = require('gulp-jasmine');
 var Promise = require("bluebird");
 
-gulp.task('travis_buildtest',function(){
+gulp.task('travis_build',function(){
     var knex = Knex({
         client: 'postgresql',
         connection: {
@@ -54,7 +54,7 @@ gulp.task('travis_buildtest',function(){
     })
     .then(function(message){
         console.log(message);
-        return gulp.src('spec/travisSpec.js').pipe(jasmine());
+        return; //gulp.src('spec/travisSpec.js').pipe(jasmine());
     });
 });
 

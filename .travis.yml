@@ -4,5 +4,6 @@ node_js:
 before_script:
     - psql -c 'create database travis_ci_test;' -U postgres
     - npm i -g jasmine-node gulp
+    - gulp travis_build
 script: 
-    - gulp travis_buildtest
+    - jasmine-node spec/travisSpec.js --forceexit
