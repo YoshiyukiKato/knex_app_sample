@@ -1,7 +1,7 @@
 'use strict';
 
 exports.up = function(knex, Promise) {
-    knex.schema.hasTable('users').then(function(exists) {
+    return knex.schema.hasTable('users').then(function(exists) {
         if (!exists) {
             return knex.schema.createTable('users', function(t) {
                 t.increments('id').primary();
@@ -15,7 +15,7 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-    knex.schema.hasTable('users').then(function(exists) {
+    return knex.schema.hasTable('users').then(function(exists) {
         if (exists) {
             return knex.schema.dropTable('users');
         }

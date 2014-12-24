@@ -26,13 +26,10 @@ gulp.task('travis_build',function(){
     return knex.migrate.latest()
     .then(function(){
         return new Promise(function(resolve,rejected){
-            setTimeout(function genSeed(){
+            setTimeout(function readySeed(){
                 knex.schema.hasTable("users").then(function(exist){
-                    if(!exist){
-                        setTimeout(genSeed,1000);
-                    }else{
-                        resolve(knex);
-                    }
+                    if(!exist) setTimeout(readySeed,1000);
+                    else resolve(knex);
                 });
             },1000);
         });
@@ -42,13 +39,10 @@ gulp.task('travis_build',function(){
     })
     .then(function(){
         return new Promise(function(resolve,rejected){
-            setTimeout(function test(){
+            setTimeout(function readyTest(){
                 knex.schema.hasColumn("users","account").then(function(exist){
-                    if(!exist){
-                        setTimeout(test,500);
-                    }else{
-                        resolve("Ready to Test!!");
-                    }
+                    if(!exist) setTimeout(readyTest,500);
+                    else resolve("Ready to Test!!");
                 });
             },500);
         });
@@ -85,11 +79,8 @@ gulp.task('local_build',function(){
         return new Promise(function(resolve,rejected){
             setTimeout(function genSeed(){
                 knex.schema.hasTable("users").then(function(exist){
-                    if(!exist){
-                        setTimeout(genSeed,100);
-                    }else{
-                        resolve(knex);
-                    }
+                    if(!exist) setTimeout(genSeed,100);
+                    else resolve(knex);
                 });
             },100);
         });
@@ -101,11 +92,8 @@ gulp.task('local_build',function(){
         return new Promise(function(resolve,rejected){
             setTimeout(function test(){
                 knex.schema.hasColumn("users","account").then(function(exist){
-                    if(!exist){
-                        setTimeout(test,100);
-                    }else{
-                        resolve("Ready to Test!!");
-                    }
+                    if(!exist) setTimeout(test,100);
+                    else resolve("Ready to Test!!");
                 });
             },100);
         });
