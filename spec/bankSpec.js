@@ -1,14 +1,14 @@
 "use strict"
 
-var knex_config = process.env.knex_config
+var mydb = require("../dbsetting.js").mydb;
 
 var Promise = require("bluebird");
 var knex = require("knex")({
     client: 'pg',
     connection: {
-        host: '127.0.0.1',
-        user: 'yoshiyuki',
-        database: 'yoshiyuki'
+        host: mydb.host,
+        user: mydb.user,
+        database: mydb.database
     },
     migrations:{
         tableName:"knex_migrations"

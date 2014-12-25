@@ -2,6 +2,7 @@ var Promise = require("bluebird");
 var Knex = require("knex");
 var interface = require("../app/lib/interface.js");
 var bank = require("../app/lib/bank.js");
+var mydb = require("../dbsetting.js").mydb;
 //=============== INTERFACE TEST==================
 
 function testEmitter(string, pause){
@@ -50,8 +51,10 @@ describe("Bank operation",function(){
         var knex = Knex({
             client: 'pg',
             connection: {
-                database: "yoshiyuki",
-                user: "yoshiyuki"
+                //ここを自分のデータベース用に書き換える
+                database: mydb.database,
+                user: mydb.user,
+                host: mydb.host
             },
             migrations:{
                 directory:"./db/migrations",

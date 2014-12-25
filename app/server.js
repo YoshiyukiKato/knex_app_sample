@@ -1,10 +1,14 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
+
+var mydb = require("../dbsetting.js").mydb;
 var knex = require("knex")({
     client: 'pg',
     connection:{
-        user     : 'yoshiyuki',
-        database : 'yoshiyuki'
+        //ここを自分のデータベース用に書き換える
+        user     : mydb.user,
+        database : mydb.database,
+        host: mydb.host
     },
     migrations: {
         tableName: 'knex_migrations'

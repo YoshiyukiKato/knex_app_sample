@@ -1,13 +1,14 @@
 // Update with your config settings.
+var mydb = require("./dbsetting.js").mydb;
 
 module.exports = {
 
     development: {
         client: 'postgresql',
         connection: {
-            host:'localhost',
-            user: 'yoshiyuki',
-            database :'yoshiyuki'
+            host: mydb.host,
+            user: mydb.user,
+            database :mydb.database
         },
         migrations: {
             directory:"./db/migrations",

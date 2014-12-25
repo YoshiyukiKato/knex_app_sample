@@ -19,6 +19,16 @@ $ npm install
 ```
 ##Build
 
+`dbsetting.js`の中身を、自分のデータベース用に書き換えて利用してください。
+
+```js
+exports.mydb = {
+    host:"localhost",
+    user:"yoshiyuki",
+    database:"yoshiyuki"
+}
+```
+
 ```sh
 $ gulp local_build
 ```

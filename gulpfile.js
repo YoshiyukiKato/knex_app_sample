@@ -4,6 +4,8 @@ var jasmine = require('gulp-jasmine');
 var Knex = require("knex");
 var Promise = require("bluebird");
 
+var mydb = require("./dbsetting.js").mydb;
+
 gulp.task('travis_build',function(){
     var knex = Knex({
         client: 'postgresql',
@@ -57,9 +59,9 @@ gulp.task('local_build',function(){
     var knex = Knex({
         client: 'postgresql',
         connection: {
-            host:'localhost',
-            user: 'yoshiyuki',
-            database :'yoshiyuki'
+            host:mydb.host,
+            user: mydb.user,
+            database :mydb.database
         },
         pool: {
             min: 2,
