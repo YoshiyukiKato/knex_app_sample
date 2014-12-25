@@ -8,7 +8,8 @@ module.exports = {
         connection: {
             host: mydb.host,
             user: mydb.user,
-            database :mydb.database
+            database :mydb.database,
+            password :mydb.password
         },
         migrations: {
             directory:"./db/migrations",

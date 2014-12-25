@@ -1,5 +1,6 @@
 exports.mydb = {
     host:"localhost",
     user:"yoshiyuki",
-    database:"yoshiyuki"
+    database:"yoshiyuki",
+    password:""
 }

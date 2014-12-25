@@ -8,7 +8,8 @@ var knex = require("knex")({
     connection: {
         host: mydb.host,
         user: mydb.user,
-        database: mydb.database
+        database: mydb.database,
+        password: mydb.password
     },
     migrations:{
         tableName:"knex_migrations"

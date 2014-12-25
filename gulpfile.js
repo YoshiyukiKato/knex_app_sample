@@ -61,7 +61,8 @@ gulp.task('local_build',function(){
         connection: {
             host:mydb.host,
             user: mydb.user,
-            database :mydb.database
+            database :mydb.database,
+            password: mydb.password
         },
         pool: {
             min: 2,

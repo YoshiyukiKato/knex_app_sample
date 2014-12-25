@@ -23,9 +23,10 @@ $ npm install
 
 ```js
 exports.mydb = {
-    host:"localhost",
-    user:"yoshiyuki",
-    database:"yoshiyuki"
+    host:"hostname",
+    user:"username",
+    password:"password",
+    database:"database"
 }
 ```
 

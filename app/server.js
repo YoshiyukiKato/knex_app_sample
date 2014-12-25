@@ -5,10 +5,10 @@ var mydb = require("../dbsetting.js").mydb;
 var knex = require("knex")({
     client: 'pg',
     connection:{
-        //ここを自分のデータベース用に書き換える
         user     : mydb.user,
         database : mydb.database,
-        host: mydb.host
+        host: mydb.host,
+        password: mydb.password
     },
     migrations: {
         tableName: 'knex_migrations'

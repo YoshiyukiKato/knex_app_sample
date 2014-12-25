@@ -51,10 +51,10 @@ describe("Bank operation",function(){
         var knex = Knex({
             client: 'pg',
             connection: {
-                //ここを自分のデータベース用に書き換える
                 database: mydb.database,
                 user: mydb.user,
-                host: mydb.host
+                host: mydb.host,
+                password: mydb.password
             },
             migrations:{
                 directory:"./db/migrations",
