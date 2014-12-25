@@ -1,5 +1,5 @@
 #About
-![travis](https://travis-ci.org/YoshiyukiKato/knex_app_sample.svg?branch=master)
+[ ![travis](https://travis-ci.org/YoshiyukiKato/knex_app_sample.svg?branch=master) ](https://travis-ci.org/YoshiyukiKato/knex_app_sample)
 
 Knex.jsを用いたサンプルアプリケーションです。  
 本アプリケーションについての詳細な説明は、[Qiitaの記事](http://qiita.com/YoshiyukiKato/items/59c9ac742536d706b322)をご覧ください。
