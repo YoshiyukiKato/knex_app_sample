@@ -1,23 +1,9 @@
 var WebSocketServer = require('websocket').server;
 var http = require('http');
 
-var mydb = require("../dbsetting.js").mydb;
-var knex = require("knex")({
-    client: 'pg',
-    connection:{
-        user     : mydb.user,
-        database : mydb.database,
-        host: mydb.host,
-        password: mydb.password
-    },
-    migrations: {
-        tableName: 'knex_migrations'
-    },
-    pool:{
-        min:0,
-        max:7
-    }
-});
+var dbconfig = require("../knexfile.js").development;
+var knex = require("knex")(dbconfig);
+
 var bank = require("./lib/bank.js");
 
 //========USER AUTHORIZE FUNCTION========

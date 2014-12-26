@@ -19,15 +19,71 @@ $ npm install
 ```
 ##Build
 
-`dbsetting.js`の中身を、自分のデータベース用に書き換えて利用してください。
+`knexfile.js`の`development`を、自分のデータベース用に書き換えて利用してください。なお、`staging`はTravis CI用の記述になっております。
 
 ```js
-exports.mydb = {
-    host:"hostname",
-    user:"username",
-    password:"password",
-    database:"database"
-}
+// Update with your config settings.
+
+module.exports = {
+
+    development: {
+        client: 'postgresql',
+        connection: {
+            host: "hostname",
+            user: "username",
+            database :"database",
+            password :"password"
+        },
+        migrations: {
+            directory:"./db/migrations",
+            tableName: 'knex_migrations'
+        },
+        seeds: {
+            directory: './db/seeds/dev'
+        },
+        pool:{
+            min:0,
+            max:7
+        }
+    },
+
+    staging: {
+        client: 'postgresql',
+        connection: {
+            database: "travis_ci_test",
+            user: "postgres"
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            directory: "./db/migrations",
+            tableName: 'knex_migrations'
+        },
+        seeds: {
+            directory: './db/seeds/dev'
+        }
+    },
+
+    production: {
+        client: 'postgresql',
+        connection: {
+            database: 'my_db',
+            user:     'username',
+            password: 'password'
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            tableName: 'knex_migrations'
+        }
+    }
+
+};
+
 ```
 
 ```sh

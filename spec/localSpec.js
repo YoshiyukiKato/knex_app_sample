@@ -2,7 +2,7 @@ var Promise = require("bluebird");
 var Knex = require("knex");
 var interface = require("../app/lib/interface.js");
 var bank = require("../app/lib/bank.js");
-var mydb = require("../dbsetting.js").mydb;
+var localdb = require("../knexfile.js").development;
 //=============== INTERFACE TEST==================
 
 function testEmitter(string, pause){
@@ -48,23 +48,7 @@ describe("Banking sequence", function(){
 
 describe("Bank operation",function(){
     it("should be return updated account data",function(done){
-        var knex = Knex({
-            client: 'pg',
-            connection: {
-                database: mydb.database,
-                user: mydb.user,
-                host: mydb.host,
-                password: mydb.password
-            },
-            migrations:{
-                directory:"./db/migrations",
-                tableName:"knex_migrations"
-            },
-            pool: {
-                min: 0,
-                max: 7
-            }
-        });
+        var knex = Knex(localdb);
         
         var config = {
             operation:"deposit",

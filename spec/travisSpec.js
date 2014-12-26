@@ -1,5 +1,6 @@
 var Promise = require("bluebird");
 var Knex = require("knex");
+var travisdb = require("../knexfile.js").staging;
 
 var interface = require("../app/lib/interface.js");
 var bank = require("../app/lib/bank.js");
@@ -48,21 +49,7 @@ describe("Banking sequence", function(){
 
 describe("Bank operation",function(){
     it("should be return updated account data",function(done){
-        var knex = Knex({
-            client: 'pg',
-            connection: {
-                database: "travis_ci_test",
-                user: "postgres"
-            },
-            migrations:{
-                directory:"./db/migrations",
-                tableName:"knex_migrations"
-            },
-            pool: {
-                min: 0,
-                max: 7
-            }
-        });
+        var knex = Knex(travisdb);
         var config = {
             operation:"deposit",
             operator:1,

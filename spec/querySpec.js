@@ -1,24 +1,9 @@
 "use strict"
 
 var Promise = require("bluebird");
-var mydb = require("../dbsetting.js").mydb;
+var localdb = require("../knexfile.js").development;
 
-var knex = require("knex")({
-    client: 'pg',
-    connection: {
-        host: mydb.host,
-        user: mydb.user,
-        database: mydb.database,
-        password: mydb.password
-    },
-    migrations:{
-        tableName:"knex_migrations"
-    },
-    pool: {
-        min: 0,
-        max: 7
-    }
-})
+var knex = require("knex")(localdb);
 
 describe("Select all from 'users'",function(){
 	it("should return all rows of user", function(done){

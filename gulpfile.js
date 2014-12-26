@@ -4,27 +4,12 @@ var jasmine = require('gulp-jasmine');
 var Knex = require("knex");
 var Promise = require("bluebird");
 
-var mydb = require("./dbsetting.js").mydb;
+var travisdb = require("./knexfile.js").staging;
+var localdb = require("./knexfile.js").development;
 
 gulp.task('travis_build',function(){
-    var knex = Knex({
-        client: 'postgresql',
-        connection: {
-            database: "travis_ci_test",
-            user: "postgres"
-        },
-        pool: {
-            min: 2,
-            max: 10
-        },
-        migrations: {
-            directory: "./db/migrations",
-            tableName: 'knex_migrations'
-        },
-        seeds: {
-            directory: './db/seeds/dev'
-        }
-    });
+    var knex = Knex(travisdb);
+    
     return knex.migrate.latest()
     .then(function(){
         return new Promise(function(resolve,rejected){
@@ -56,26 +41,7 @@ gulp.task('travis_build',function(){
 });
 
 gulp.task('local_build',function(){
-    var knex = Knex({
-        client: 'postgresql',
-        connection: {
-            host:mydb.host,
-            user: mydb.user,
-            database :mydb.database,
-            password: mydb.password
-        },
-        pool: {
-            min: 2,
-            max: 10
-        },
-        migrations: {
-            directory: "./db/migrations",
-            tableName: 'knex_migrations'
-        },
-        seeds: {
-            directory: './db/seeds/dev'
-        }
-    });
+    var knex = Knex(localdb);
         
     return knex.migrate.latest()
     .then(function(){
